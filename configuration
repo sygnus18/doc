@@ -7,6 +7,15 @@
     <httpRuntime maxRequestLength="409600" executionTimeout="300"/>
     <compilation debug="true" targetFramework="4.5"/>
     <pages controlRenderingCompatibilityVersion="4.0"/>
+    <webServices>
+      <protocols>
+        <remove name="HttpPost"/>
+        <remove name="HttpGet"/>        
+        <remove name="Documentation"/>
+        
+      </protocols>
+      <!--<wsdlHelpGenerator href="D:\ eKYC_YESHBANK\Miscellaneous Projects\eKYCService\eKYCService\eKYCService\DependentFiles\EmailTemplate\Reject.html"></wsdlHelpGenerator>-->
+    </webServices>
   </system.web>
   <system.net>
     <defaultProxy useDefaultCredentials="true" >
@@ -14,9 +23,9 @@
   </system.net>
   <system.serviceModel>
     <client>
-      <endpoint address="https://kra.ndml.in/sms-ws/PANServiceImplService/PANServiceImplService.wsdl"
-    binding="basicHttpBinding" bindingConfiguration="PANServiceImplPortBinding"
-    contract="NDMLVerification.PANServiceImpl" name="PANServiceImplPort" />
+      <endpoint address="http://kra.ndml.in:80/sms-ws/PANServiceImplService"
+        binding="basicHttpBinding" bindingConfiguration="PANServiceImplPortBinding"
+        contract="NDMLVerification.PANServiceImpl" name="PANServiceImplPort" />
     </client>
     <bindings>
       <basicHttpBinding>
@@ -24,10 +33,10 @@
       </basicHttpBinding>
       <webHttpBinding>
         <binding name="httpbind" closeTimeout="00:25:00" openTimeout="00:25:00"
-         receiveTimeout="00:25:00" sendTimeout="00:25:00" maxBufferSize="2147483647"
-         maxReceivedMessageSize="2147483647" crossDomainScriptAccessEnabled="true">
+          receiveTimeout="00:25:00" sendTimeout="00:25:00" maxBufferSize="2147483647"
+          maxReceivedMessageSize="2147483647" crossDomainScriptAccessEnabled="true">
           <readerQuotas maxDepth="128" maxStringContentLength="2147483647"
-           maxArrayLength="2147483647" maxBytesPerRead="2147483647" maxNameTableCharCount="2147483647" />
+            maxArrayLength="2147483647" maxBytesPerRead="2147483647" maxNameTableCharCount="2147483647" />			
         </binding>
       </webHttpBinding>
     </bindings>
@@ -93,12 +102,13 @@
         <endpoint address="" behaviorConfiguration="webHttpBinding" binding="webHttpBinding" bindingConfiguration="httpbind" contract="eKYCService.ITradingDetails"/>
       </service>
 	  <service name="eKYCService.FatcaDetails">
-	    <endpoint address="" behaviorConfiguration="webHttpBinding" binding="webHttpBinding" bindingConfiguration="httpbind" contract="eKYCService.IFatcaDetails" />
+			<endpoint address="" behaviorConfiguration="webHttpBinding" binding="webHttpBinding" bindingConfiguration="httpbind" contract="eKYCService.IFatcaDetails" />
 	 </service>
-	 <service name="eKYCService.cKYC.CKYC">
-        <endpoint address="" behaviorConfiguration="webHttpBinding" binding="webHttpBinding"  bindingConfiguration="httpbind" contract="eKYCService.cKYC.ICKYC" />
-      </service>
-    </services>
+	<service name="eKYCService.cKYC.CKYC">
+		<endpoint address="" behaviorConfiguration="webHttpBinding" binding="webHttpBinding"  bindingConfiguration="httpbind" contract="eKYCService.cKYC.ICKYC" />
+	</service>
+
+	</services>    
     <behaviors>
       <serviceBehaviors>
         <behavior>
@@ -126,7 +136,8 @@
   <appSettings>
     <add key="AppName" value="eKYC"/>
 
-    <!--session value in Seconds-->
+    <!--session value in Seconds
+    <add key="SessionTimeout" value="300"/>-->
     <add key="SessionTimeout" value="300"/>
 
     <!--  START CDSL -->
@@ -137,15 +148,13 @@
     <add key="PANPASSURL" value="http://test.cvlkra.com/paninquiry.asmx/GetPassword"/>
     <add key="PANINQURL" value="http://test.cvlkra.com/paninquiry.asmx/GetPanStatus"/>
     <add key="PANSOLICITURL" value="http://test.cvlkra.com/paninquiry.asmx/SolicitPANDetailsFetchALLKRA"/>
-    <!--  End CDSL -->
 
     <!--START NSDL-->
     <add key="NDMLPANPASSKEY" value="ekyc@2016"/>    
     <add key="NDMLPANPASSWORD" value="CDSL@123"/>
     <add key="NDMLPANUSERNAME" value="BUSHRA"/>
     <add key="NSDLPANPASSWORDURL" value="http://121.242.223.211/sms-ws/PANServiceImplService/PANServiceImplService.wsdl"/>
-	<!--End NSDL-->
-	  
+
     <!--START TIN-->
     <add key="TINUserID" value="V0127901"/>
     <add key="TINURL" value="https://59.163.46.2/TIN/PanInquiryBackEnd"/>
@@ -158,299 +167,297 @@
     <!--Back OFfice API URL-->
     <add key="BACKOFCREDIRECTURL" value="http://localhost/"/>
 	  
-    <!-- SMS -->
-	<add key="Revok_SMS_Required" value="N"/>
-	<add key="Revok_SMS_Text" value="Dear Sir/Madam {0} application for eKYC has been revoked. Please contact your RM."/>
-
-	<add key="Revok_Email_Required" value="N"/>
-	<add key="Revok_Email_Template" value="DependentFiles\EmailTemplate\Revok.htm"/>
-	<add key="Revok_Email_TemplateSubject" value="Welcome to KYC Portal : Revok"/>
-
-	<add key="Authorized_SMS_Required" value="N"/>
-	<add key="Authorized_SMS_Text" value="CONGRATULATIONS FOR OPENING THE TRADING ACCOUNT WITH ZIPPER TRADE – THE ZIPPED BROKERAGE PLATFORM. YOUR LOGIN DETAILS WILL BE SEND AT YOUR REGISTERED MAIL ID SHORTLY. OUR CUSTOMER CARE EXECUTIVE WILL GET IN TOUCH WITH YOU FOR FURTHER SUPPORT. FOR QUERIES CALL 011-48564444 OR VISIT AT https://etrade.rkfml.com. "/>
-
-	<add key="Authorized_Email_Required" value="Y"/>
-	<add key="Authorized_Email_Template" value="DependentFiles\EmailTemplate\Authorized.htm"/>
-	<add key="Authorized_Email_TemplateSubject" value="Welcome to KYC Portal : Authorized"/>
-
-	<add key="Authorized_Pending_SMS_Required" value="N"/>
-	<add key="Authorized_Pending_SMS_Text" value="New client code {2} has been successfully registered through eKYC PORTAL.Kindly consider the request and approve the same"/>
-
-	<add key="Authorized_Pending_Email_Required" value="N"/>
-	<add key="Authorized_Pending_Email_Template" value="DependentFiles\EmailTemplate\Authorized_Pending.htm"/>
-	<add key="Authorized_Pending_Email_TemplateSubject" value="EKYC Registered Successfully"/>
-
-	<add key="Register_SMS_Required" value="N"/>
-    <add key="Register_SMS_Text" value="WELCOME TO ZIPPER TRADE. DEAR {0} THANK YOU FOR REGISTERING WITH ZIPPER TRADE. WE ACKNOWLEDGE YOUR REGISTRATION FOR HASSELFREE E-KYC PROCESS.  OUR EXECUTIVE WILL GET IN TOUCH WITH YOU SHORTLY. FOR FURTHER QUERIES/SUPPORT CALL AT 011-48564444. "/>
-
-	<add key="Between_SMS_Required" value="N"/>
-	<add key="Between_SMS_Text" value="DEAR {0} WE ARE ALMOST DONE WITH THE ENTIRE ACCOUNT OPENING PROCESS. KINDLY LOG ON TO https://etrade.rkfml.com %26 COMPLETE THE PROCESS. OUR EXECUTIVE WILL GET IN TOUCH WITH YOU SHORTLY. FOR SUPPORT CALL 011-48564444."/>
-
-	<add key="SMS_CLIENT" value="RK"/>
-	<add key="SENDER" value="GCLBRO"/>
-	<!--<add key="SMSURL" value="http://user.getonesms.com/rest/services/sendSMS/sendGroupSms?AUTH_KEY=809fcbcfab939fe7a9bdd34d91e10#message={3}#senderId=GCLBRO#routeId=1#mobileNos={2}#smsContentType=english"/>-->
-	<add key="SMSURL" value="http://203.114.242.181/atomsms/api/smshttpapi.php?login=indira#sender=INDIRA#password=indira123#clientid=INDIRA#op=Airtel#msisdn=91{2}#msg={3}"/>
-
-	
-	<!--<add key="SENDER" value="ADROIT"/>
-	<add key="SMSURL" value="http://TRANS.SMSCONNECT.CO.IN/unified.php?usr=28773#pwd=adroit123#ph={2}#sndr=ADROIT#text={3}"/>-->
-	<!--<add key="SMS_CLIENT" value="KUVARJI"/>-->
-    <add key="APIKEY" value="5730337ef01a4"/>
-    <!--<add key="SENDER" value="ZIPPER"/>-->
-    <add key="OTPMSG" value="One Time Password for eKYC Registration is {0}.This will expire in half an hour."/>	
-    <!--<add key="SMSURL" value="http://www.smsjust.com/blank/sms/user/urlsms.php?username=jainamsurat#pass=123456#senderid=JAINAM#dest_mobileno=91{2}#message={3}#response=Y"/>--><!--<add key="SMSURL" value="http://sms6.routesms.com/bulksms/bulksms?username=sampoor#password=noida#type=0#dlr=0#destination={2}#source=smprna#message={3}" />-->
-	<!-- NetCore For BN Rathi--> 
-	<!--<add key="NETCORE_SENDER" value="BNRATHI_TRANS_API"/>
-    <add key="NETCORE_SMSURL" value="http://bulkpush.mytoday.com/BulkSms/SingleMsgApi?feedid={0}#username={1}#password={2}#To=91{3}#Text={4}#time={5}#senderid={6}"/>-->
-    <!--<add key="NETCORE_SMSURL" value="http://mytoday.com/sso/Logon.do?continue=http%3A%2F%2Fpub.mytoday.com%2Fweb#service=1#ent_auth=1"/>-->
-	<!--<add key="NETCORE_FEEDID" value="359955"/>
-	<add key="NETCORE_SMSUSERNAME" value="9346237124"/>
-	<add key="NETCORE_SMSPASSWORD" value="bnrsecurities"/>
-    <add key="HideCam" value="hidden"/>-->
-	<!-- NetCore For BN Rathi-->
-	<!-- SMS -->
-    <!-- Client Export file path for admin module -->
-    <add key="ExportFilePathBackoffice" value="DependentFiles\ExportFiles\ExportBackOfficeFiles"/>
-	<add key="BackofficeExportSeperator" value="|"/>
-    <add key="ExportFilePathPaymentcsv" value="DependentFiles\ExportFiles\ExportPaymentData"/>
-
-    <add key="UCCExportFilePath" value="DependentFiles\ExportFiles\UCCExportFiles\" />
-    <add key="CKYCBulkUploadPath" value="DependentFiles\CKYC\BulkUpload\input\" />
-    <add key="DPAccountOpeningFilesPath" value="DependentFiles\DPAccountOpeningFiles\" />
-    <add key="CDSLFilesPath" value="DependentFiles\CDSLFiles\" />
-    <add key="TradingAccountOpeningFilesPath" value="DependentFiles\TradingAccountOpeningFiles\" />
-    <add key="KRAFileDownloadPath" value="DependentFiles\KRADownloadFiles\" />
-    <add key="XCEEDZIPLIC" value="6EEE12EC6FDFED24C33E7BEFFB65C5ED" />  
     
-    <add key="CDSLDPId" value="028700"/>
-    <add key="TabOrder" value="P,True#B,True#D,True#Y,True#Z,True#N,True#O,True#A,True#W,True#S,True#F,True#U,True#T,True#E,True"/>
-	  
-    <add key="Title" value="eKYC by FTIL"/>
+	<!--Globle SMS Setting -->
+	<add key="IntegrationType" value="URL"/>	  
+	<add key="SMS_CLIENT" value="YESSEC"/>
+	<add key="APIKEY" value=""/>
+	<add key="SENDER" value="YESSEC"/>
+	<add key="SMSUSERNAME" value="2000170559"/>
+	<add key="SMSPASSWORD" value="nsjEmV"/>
+	<add key="OTPMSG" value="One Time Password for eKYC Registration is {0}.This will expire in half an hour."/>
+	<add key="SMSURL" value="http://enterprise.smsgupshup.com/GatewayAPI/rest?msg={3}#v=1.1#userid={0}#password={1}#send_to=91{2}#msg_type=text#method=sendMessage"/>
+	<add key="smsExtras" value=""/>
+	<add key="smsProvider" value="GWCSMS"/>
+    
+  <add key="RegisterMSG" value="Dear {0}, Thank you for successfully registering to YES Securities E-KYC portal.  You can now complete your online application by clicking on https://203.114.241.34/eKYC_UAT/ "/>
+  <add key="BetweenLogout" value="Dear {0}, you seem to have missed completing the YES Securities E-KYC process. To continue where you have left click here https://203.114.241.34/eKYC_UAT/ "/>
+  <add key="AuthorizeMSG" value="Dear {0}, your documents submitted towards E-KYC has been approved. Submit POA to activate your trading account in case you have missed to submit earlier. To download POA, click here https://203.114.241.34/eKYC_UAT/ "/>
+  
+  <!--<add key="RegisterMSG" value="WELCOME TO YES SECURITIES. DEAR {0} THANK YOU FOR REGISTERING WITH YES SECURITIES. WE ACKNOWLEDGE YOUR REGISTRATION FOR HASSELFREE E-KYC PROCESS.  OUR EXECUTIVE WILL GET IN TOUCH WITH YOU SHORTLY. FOR FURTHER QUERIES/SUPPORT CALL AT 000-00000000. "/>
+	<add key="BetweenLogout" value="DEAR {0} WE ARE ALMOST DONE WITH THE ENTIRE ACCOUNT OPENING PROCESS. KINDLY LOG ON TO  COMPLETE THE PROCESS. OUR EXECUTIVE WILL GET IN TOUCH WITH YOU SHORTLY. FOR SUPPORT CALL 000-00000000."/>
+	<add key="AuthorizeMSG" value="CONGRATULATIONS FOR COMPLETE KYC WITH YES SECURITIES. OUR CUSTOMER CARE EXECUTIVE WILL GET IN TOUCH WITH YOU FOR FURTHER SUPPORT. FOR QUERIES CALL 000-00000000. "/>-->
+	<add key="MultipleSMS" value="Y"/>	
+	
+  <add key="HideNSDL" value="hidden"/>
+  <add key="HideCam" value="hidden"/>
+      
+	<add key="OTPFloodingLimit" value="3"/> <!--User can have difined attepts-->
+  <add key="OTPFloodingBlockHour" value="2"/> <!--User will block for defined hours.-->
+    
+  <!-- Client Export file path for admin module -->
+  <add key="ExportFilePathBackoffice" value="DependentFiles\ExportFiles\ExportBackOfficeFiles"/>
+  <add key="ExportFilePathPaymentcsv" value="DependentFiles\ExportFiles\ExportPaymentData"/>
+  <add key="TabOrder" value="P,True#B,True#D,True#Y,True#Z,False#N,True#O,True#A,True#W,False#S,True#F,False#U,True#T,True#E,True"/>
+  <add key="UCCExportFilePath" value="DependentFiles\ExportFiles\UCCExportFiles\" />
+  <add key="CKYCBulkUploadPath" value="DependentFiles\CKYC\BulkUpload\input\" />
+  <add key="DPAccountOpeningFilesPath" value="DependentFiles\DPAccountOpeningFiles\" />
+  <add key="TradingAccountOpeningFilesPath" value="DependentFiles\TradingAccountOpeningFiles\" />
+  <add key="KRAFileDownloadPath" value="DependentFiles\KRADownloadFiles\" />
+
+	<add key="Title" value="eKYC by FTIL"/>
     <add key="Heading" value="eKYC(Paperless Registration)"/>
     <add key="Margin" value="true"/>
     <!-- Terms & conditions-->
     <add key="MandatoryHTMLPath" value="DependentFiles\HTML\Mandatory"/>
     <add key="NonMandatoryHTMLPath" value="DependentFiles\HTML\NonMandatory"/>
-    <add key="MandatoryHTMLFileName" value="MandatoryHTML"/>
+    <add key="MandatoryHTMLFileName" value="POLICIES_AND_PROCEDURES"/>
     <add key="MandatoryHTMLErrorMsg" value="Kindly provide your acceptance to proceed a step ahead"/>
     <add key="AADHARRESPXML" value="DEMO\"/>
 
     <!-- PDF generation -->
 	<add key="RevokPDFFilePath" value="DependentFiles\RevokPDFFilePath\"/>
-    <add key="PDFPath" value="DependentFiles\PDFPath\"/>
-    <!-- PDF Equity -->
-    <add key="InputPDFPath" value="DependentFiles\PDFDownloadFiles\RK\RKEquity.pdf"/>
-    <add key="MappingXMLPath" value="DependentFiles\PDFDownloadFiles\RK\RKEquity.xml"/>
-    <add key="PDFEquitySignature" value="DependentFiles\PDFDownloadFiles\RK\RK_Equity_Signature.xml"/>
-    <!-- PDF Commodity -->
-    <add key="InputPDFPath2" value="DependentFiles\PDFDownloadFiles\RK\Zipper KYC Commodity RK_New.pdf"/>
-    <add key="MappingXMLPath2" value="DependentFiles\PDFDownloadFiles\RK\RK_StockHolding_Commodity.xml"/>
-    <add key="PDFCommoditySignature" value="DependentFiles\PDFDownloadFiles\RK\RK_Commodity_Signature.xml"/>
-    <!-- PDF Cersai -->
-    <add key="InputPDFPath3" value="DependentFiles\PDFDownloadFiles\RK\RK_Cersai.pdf"/>
-    <add key="MappingXMLPath3" value="DependentFiles\PDFDownloadFiles\RK\RK_Cersai.xml"/>
-    <add key="PDFCkycSignature" value="DependentFiles\PDFDownloadFiles\RK\20170912\RK_Cersai_Signature.xml"/>
-    <add key="PDFCkycRequired" value="false"/>  <!--true,false  -->
-	<add key="PDFDownloadURL" value="http://localhost:55519/DependentFiles\PDFPath\"/> 
-	<add key="CDSLSignature" value="DependentFiles\PDFDownloadFiles\Jainam\CDSL_Signature.xml"/>
+  <add key="PDFPath" value="DependentFiles\PDFPath\"/>
+
+	<!-- PDF Equity -->
+	<add key="InputPDFPath" value="DependentFiles\PDFDownloadFiles\Equity.PDF"/>
+	<add key="MappingXMLPath" value="DependentFiles\PDFDownloadFiles\Equity.xml"/>
+	<add key="PDFEquitySignature" value="DependentFiles\PDFDownloadFiles\Equity_Signature.xml"/>
+	<!-- PDF Commodity -->
+	<add key="InputPDFPath2" value=""/>
+	<add key="MappingXMLPath2" value=""/>
+	<add key="PDFCommoditySignature" value=""/>
+	<!-- PDF Cersai -->
+	<add key="InputPDFPath3" value=""/>
+	<add key="MappingXMLPath3" value=""/>
+	<add key="PDFCkycSignature" value=""/>
+	  
+	<add key="PDFCkycRequired" value="false"/>  <!--true,false  -->
+	  
 	<!-- POA -->
-	<add key="PDFPOARequired" value="false"/>
-	<add key="POAPDFPath" value="DependentFiles\PDFDownloadFiles\POA_Equity.PDF"/>
-	<add key="POAMappingXMLPath" value="DependentFiles\PDFDownloadFiles\POA_Equity.xml"/>
+	<add key="POAPDFPath" value="DependentFiles\PDFDownloadFiles\POA.pdf"/>
+	<add key="POAMappingXMLPath" value="DependentFiles\PDFDownloadFiles\POA.xml"/>
 	  
-    <!-- PDF Count -->
-    <add key="PDFEquityCount" value="27"/>
-    <add key="PDFCommodityCount" value="15"/>
-    <add key="PDFcKYCCount" value="3"/>
-    <add key="PDFEnable" value="True"/>
+	<!-- PDF Count -->
+	<add key="PDFEquityCount" value="26"/>
+	<add key="PDFCommodityCount" value="15"/>
+	<add key="PDFcKYCCount" value="2"/>
+	<add key="PDFEnable" value="True"/>
 	  
-    <!--TRADING Start-->
-    <add key="InputPDFPathAddon" value="DependentFiles\PDFDownloadFiles\AddonPDF\Pahela_Equity.pdf"/>
-    <add key="MappingXMLPathAddon" value="DependentFiles\PDFDownloadFiles\AddonPDF\Pahela_Equity.xml"/>
-    <add key="PDFEquitySignatureAddon" value="DependentFiles\PDFDownloadFiles\AddonPDF\Pahela_Equity_Signature.xml"/>
-	  
-    <add key="InputPDFPath2Addon" value="DependentFiles\PDFDownloadFiles\AddonPDF\Pahela_Commodity.pdf"/>
-    <add key="MappingXMLPath2Addon" value="DependentFiles\PDFDownloadFiles\AddonPDF\Pahela_Commodity.xml"/>
-    <add key="PDFCommoditySignatureAddon" value="DependentFiles\PDFDownloadFiles\AddonPDF\Pahela_Commodity_Signature.xml"/>
-    <!--TRADING End-->
-	  
-	<!-- ECN -->
-	<add key="ECNPDFPath" value="DependentFiles\PDFDownloadFiles\GoodWill\GoodWill_ECN.pdf"/>
-	<add key="ECNMappingXMLPath" value="DependentFiles\PDFDownloadFiles\GoodWill\GoodWill_ECN.xml"/>
+	<!--TRADINGSt-->
+	<add key="InputPDFPathAddon" value=""/>
+	<add key="MappingXMLPathAddon" value=""/>
+	<add key="PDFEquitySignatureAddon" value=""/>
+	<add key="InputPDFPath2Addon" value=""/>
+	<add key="MappingXMLPath2Addon" value=""/>
+	<add key="PDFCommoditySignatureAddon" value=""/>
+	<!--TRADINGend-->
     
 	<!-- Priview template URL-->
-    <add key="PreviewTemplate" value="DependentFiles\Preview\PreviewTemplate.html"/>
+	<add key="PreviewTemplate" value="DependentFiles\Preview\PreviewTemplate.html"/>
 	<!-- Priview template URL-->
 	  
-    <!-- Log writing -->
-    <add key="LogPath" value="C:\MDSWeb\Miscellaneous Projects\eKYCService\LOG\eKYC.txt"/>
-    <add key="RequestLogPath" value="LOG\"/>
-    <add key="RequestLogFileName" value="eKYCRequestLog"/>
+	<!-- Log writing -->
+	<add key="LogPath" value="D:\ eKYC_YESHBANK\Miscellaneous Projects\eKYCService\eKYCService\eKYCService\DependentFiles\Logs\eKYC.txt"/>
+	<add key="RequestLogPath" value="LOG\"/>
+	<add key="RequestLogFileName" value="eKYCRequestLog"/>
 	<!-- Log writing -->
 	    
-    <!-- eBuzz Queue writing for for SMS and Mail  -->
-    <add key="EBUZZPROVIDER" value="ATOM"/>
-    <add key="ENCRYPTIONKEY" value="ekyc"/>
-    <add key="QTYPE" value="Private$"/>
-    <add key="QIP" value="FTCPU2617"/>
-    <add key="QNAME" value="match"/>
-    <add key="Qlabel" value="ADHOC"/>
-    <!-- Demat/Doc upload section enable/disable -->
-    <add key="Demat" value="true"/>
-    <add key="DocUpload" value="false"/>
-    <add key="MultipleHolders" value="true"/>
-    <add key="DematJoint" value="visible"/>
-    <add key="HideNSDL" value="visible#visible"/>
-    <!-- 1. For the NSDL 2. CDSL -->
-    <add key="ChekedAndUncheckedNSDLAndCDSL" value="0#1"/>
-    <!-- 1. For the NSDL 2. CDSL  1 means checked 0. means uncheked -->
-    <add key="HideCam" value="hidden"/>
-    <add key="ContractNoteMessage" value="I here by agree to receive Contract Notes electronically"/>
-    <add key="ContractNoteErrorMessage" value="Please agree to the condition of Contract Note receipt"/>
-    <add key="HideOtherDetails" value="hidden#visible#hidden#hidden"/>    <!--1.PhysicalNoteChk 2. ElectronicNoteChk 3.PhysicalNotelbl 4.ElectronicNotelbl  -->
-    <add key="CheckTrueFlaseOtherDetails" value="0#1"/>
-    <add key="AadaarNameVerification" value="N"/>
-    <add key="SupportFileExt" value="jpeg,jpg,gif,png,bmp,tif,tiff"/>
-    <add key="DownloadAttachmentPath" value="DependentFiles\Attachments"/>    
-    <!--1.PhysicalNoteChk 2. ElectronicNoteChk     1 means checked 0. means uncheked-->
+	<!-- eBuzz Queue writing for for SMS and Mail  -->
+	<add key="EBUZZPROVIDER" value="ATOM"/>
+	<add key="ENCRYPTIONKEY" value="ekyc"/>
+	<add key="QTYPE" value="Private$"/>
+	<add key="QIP" value="FTCPU2617"/>
+	<add key="QNAME" value="match"/>
+	<add key="Qlabel" value="ADHOC"/>
+	<!-- Demat/Doc upload section enable/disable -->
+	<add key="Demat" value="true"/>
+	<add key="DocUpload" value="false"/>
+
+    <add key="MultipleHolders" value="false"/>
+    <add key="DematJoint" value="hidden"/>
+    <add key="HideNSDL" value="visible#hidden"/>
+    
+	<!-- 1. For the NSDL 2. CDSL -->
+	<add key="ChekedAndUncheckedNSDLAndCDSL" value="1#0"/>
+	<!-- 1. For the NSDL 2. CDSL  1 means checked 0. means uncheked -->
+	<add key="HideCam" value="hidden"/>
+	<add key="ContractNoteMessage" value="I here by agree to receive Contract Notes electronically"/>
+	<add key="ContractNoteErrorMessage" value="Please agree to the condition of Contract Note receipt"/>
+	<add key="HideOtherDetails" value="hidden#visible#hidden#hidden"/>    
+	<!--1.PhysicalNoteChk 2. ElectronicNoteChk 3.PhysicalNotelbl 4.ElectronicNotelbl  -->
+	<add key="CheckTrueFlaseOtherDetails" value="0#1"/>
+	<add key="AadaarNameVerification" value="N"/>
+	<add key="SupportFileExt" value="jpeg,JPEG,jpg,JPG,tif,TIF,tiff,TIFF,PDF"/>
+	<add key="DownloadAttachmentPath" value="DependentFiles\Attachments"/>    
+	<!--1.PhysicalNoteChk 2. ElectronicNoteChk     1 means checked 0. means uncheked-->
 	  
-    <!-- SMTP -->
-    <add key="ApplicationID" value="Match"/>
-    <add key="FromEMail" value="admin.match@abacus.com"/>
-    <add key="CCEMail" value="ext-prathamesh@63moons.com;ext-rita@63moons.com"/>
-    <add key="BBCEMail" value="ext-arbaz@63moons.com;ext-anil@63moons.com"/>
-    <add key="Welcome" value="DependentFiles\EmailTemplate\index.htm"/>
-    <add key="ForgetPassword" value="DependentFiles\EmailTemplate\ChangedPassword.htm"/>
-    <add key="WelcomeSubject" value="Welcome to KYC Portal"/>
-    <add key="ForgetPasswordSubject" value="Welcome to KYC Portal"/>
-    <add key="SMTPServer" value="172.16.28.16"/>
-    <add key="SMTPPort" value="25"/>
-    <add key="SMTPUserID" value="kushal.sharma@ftindia.com"/>
-    <add key="SMTPPass" value="12345"/>
-    <add key="SMTPAuthRequired" value="false"/> <!-- false for dev-->
-    <add key="SMTPSSLRequired" value="false"/>  <!-- false for dev-->
-    <add key="SMTPCredentialRequired" value="false"/>  <!-- false for dev-->
-    <add key="SMTPRequiredRecpt" value="true"/>
-    <add key="SendMailWithChilkat" value="true"/>
 	<!-- SMTP -->
+	<add key="ApplicationID" value="Match"/>
+	<add key="FromEMail" value="admin.match@abacus.com"/>
+	<add key="CCEMail" value=""/>
+	<add key="BBCEMail" value="amit.jain@63moons.com"/>
+	<add key="EmailAttachments" value="DependentFiles\PDFPath\"/>	  		
+  <!--<add key="SMTPServer" value="103.13.109.251"/>-->
+  <!--Add Headers for YES-->
+  <add key="MailHeaders" value="false"/>
+  <add key="MailHeaderVirtualMTA" value="ed.email.yessecuritiesltd.in"/>
+  <!--Contoso Server Setting-->
+  <!--Contoso is password - test@123 -->
+  <!--<add key="SMTPServer" value="172.20.2.98"/>-->
+  <add key="SMTPServer" value="172.16.28.16"/>
+	<add key="SMTPPort" value="25"/>	  
+	<add key="SMTPUserID" value=""/>
+	<add key="SMTPPass" value=""/>
+	<add key="SMTPAuthRequired" value="false"/>
+	<!-- false for dev-->
+	<add key="SMTPSSLRequired" value="false"/>
+	<!-- false for dev-->
+	<add key="SMTPCredentialRequired" value="false"/>
+	<!-- false for dev-->
+	<add key="SMTPRequiredRecpt" value="true"/>
+	<add key="SendMailWithChilkat" value="false"/>
+	<!-- Welcome-->
+	<add key="WelcomeMail" value="true"/>
+	<add key="Welcome" value="DependentFiles\EmailTemplate\Welcome.html"/>
+	<add key="WelcomeSubject" value="Welcome to YES Securities KYC Portal"/>
+	<!-- Authorization Pending-->
+	<add key="AuthorizationPendingMail" value="true"/>
+	<add key="AuthorizationPending" value="DependentFiles\EmailTemplate\Authorized_Pending.html"/>
+	<add key="AuthorizationPendingSubject" value="KYC Registration Authorization Pending with YES Securities"/>
+	<!-- Authorized And Reject-->
+	<add key="AuthorizationMail" value="true"/>
+	<add key="Authorization" value="DependentFiles\EmailTemplate\Authorized.html"/>
+	<add key="AuthorizationSubject" value="KYC Registration Authorized with YES Securities"/>
+	<add key="Reject" value="DependentFiles\EmailTemplate\Reject.html"/>
+	<add key="RejectSubject" value="KYC Registration with YES Securities"/>
+	<!-- Revoke-->
+	<add key="RevokeMail" value="true"/>
+	<add key="Revoke" value="DependentFiles\EmailTemplate\Revok.html"/>
+	<add key="RevokeSubject" value="KYC Registration with YES Securities"/>
+	<!-- Forget Password -->
+	<add key="ForgetMail" value="false"/>
+	<add key="ForgetPassword" value="DependentFiles\EmailTemplate\password.html"/>
+	<add key="ForgetPasswordSubject" value="Reset Password to YES Securities KYC Portal"/>	
+	<!-- when upload POA Send alert mail to client -->
+	<add key="POAApproveMail" value="true"/>
+	<add key="POAApprove" value="DependentFiles\EmailTemplate\POA.html"/>
+	<add key="POAApproveSubject" value="POA received for KYC Registration with YES Securities"/>
+	  
+	<!-- when Reject POA Send alert mail to client -->
+	<add key="POARejectMail" value="true"/>
+	<add key="POAReject" value="DependentFiles\EmailTemplate\POAR.html"/>
+	<add key="POARejectSubject" value="POA Rejected for KYC Registration with YES Securities"/>
+	  
+	<!-- when IPV Send alert mail to client -->
+	<add key="IPVMail" value="true"/>
+	<add key="IPV" value="DependentFiles\EmailTemplate\IPVLink.html"/>
+	<add key="IPVSubject" value="link for Video Conference for KYC Registration with YES Securities"/>
+
+  <!-- Send DP alert mail to Admin -->
+  <add key="DPMail" value="true"/>
+  <add key="DPAlertLimit" value="10"/>
+  <add key="DPAlertEmail" value="amit.jain@63moons.com"/>
+  <add key="DP" value="DependentFiles\EmailTemplate\DP.html"/>
+  <add key="DPSubject" value="DP Client Almost Used. Kindly import DP ClientId"/>
+
+  <!-- Send alerts mail to Admin -->  
+  <add key="Alert" value="DependentFiles\EmailTemplate\MailAlert.html"/>
+  <add key="AlertSubject" value="Alert"/>
+
+
+    <!-- SMTP -->
 	  
 	  
-    <!--Demo -->
-    <add key="AppType" value="UAT"/>
-    <add key="DemoKRAFilePath" value="DEMO\"/>
-    <add key="DemoTinCall" value="DemoTinCall\"/>
 	<!--Demo -->
-	  
-    <!--BILLDESK Payment Gateway -->
-    <add key="PGURL" value="https://www.billdesk.com/pgidsk/pgijsp/KreedaPaymentoption.jsp?msg={0}"/>
-	<!--BILLDESK Payment Gateway -->
-	  
-    <!--ATOM Payment Gateway -->
-    <add key="ATOMLOGIN" value="160"/>
-    <add key="ATOMPASS" value="Test@123"/>
-    <add key="ATOMTTYPE" value="NBFundTransfer"/>
-    <add key="ATOMPRODCT" value="NSE"/>
-    <add key="ATOMCURR" value="INR"/>
-    <add key="ATOMTXNSCAMT" value="0"/>
-    <add key="ATOMRESPURL" value="http://localhost:55519/ATOMResponse.aspx"/>
-    <add key="ATOMTOKENURL" value="https://paynetzuat.atomtech.in/paynetz/epi/fts?login={0}#pass={1}#ttype={2}#prodid={3}#amt={4}#txncurr={5}#txnscamt={6}#clientcode={7}#txnid={8}#custacc={9}#date={10}#bankid={11}#ru={12}"/>
-    <add key="ATOMTXNURL" value="https://paynetzuat.atomtech.in/paynetz/epi/fts?ttype={0}#tempTxnId={1}#token={2}#txnStage={3}"/>
-    <add key="UATBANKID" value="2001"/>
-    <add key="CommodityATOMLOGIN" value="160"/>
-    <add key="CommodityATOMPASS" value="Test@123"/>
-    <add key="CommodityATOMPRODCT" value="NSE"/>
+	<add key="AppType" value="UAT"/>
+	<add key="DemoKRAFilePath" value="DEMO\"/>
+	<add key="DemoTinCall" value="DemoTinCall\"/>
+	<!--Demo -->
 
-
-	  
-	<!--<add key="ATOMLOGIN" value="18607"/>
-    <add key="ATOMPASS" value="Rkfml@321"/>
-    <add key="ATOMTTYPE" value="NBFundTransfer"/>
-    <add key="ATOMPRODCT" value="NSE"/>
-    <add key="ATOMCURR" value="INR"/>
-    <add key="ATOMTXNSCAMT" value="0"/>
-    <add key="ATOMRESPURL" value=""/>
-    <add key="ATOMTOKENURL" value="https://payment.atomtech.in/paynetz/epi/fts?login={0}#pass={1}#ttype={2}#prodid={3}#amt={4}#txncurr={5}#txnscamt={6}#clientcode={7}#txnid={8}#custacc={9}#date={10}#bankid={11}#ru={12}"/>
-    <add key="ATOMTXNURL" value="https://payment.atomtech.in/paynetz/epi/fts?ttype={0}#tempTxnId={1}#token={2}#txnStage={3}"/>
-    <add key="UATBANKID" value="2001"/>
- 
-    <add key="CommodityATOMLOGIN" value="18610"/>
-    <add key="CommodityATOMPASS" value="Rkfml@3210"/>
-	<add key="CommodityATOMPRODCT" value="MCX"/>-->
-
-	
-	  
+	<!--ATOM Payment Gateway -->
+	<add key="PGURL" value=""/>	
+	<add key="ATOMLOGIN" value=""/>
+	<add key="ATOMPASS" value=""/>
+	<add key="ATOMTTYPE" value=""/>
+	<add key="ATOMPRODCT" value=""/>
+	<add key="ATOMCURR" value=""/>
+	<add key="ATOMTXNSCAMT" value=""/>
+	<add key="ATOMRESPURL" value=""/>
+	<add key="ATOMTOKENURL" value=""/>
+	<add key="ATOMTXNURL" value=""/>
+	<add key="UATBANKID" value=""/>
+	<add key="CommodityATOMLOGIN" value=""/>
+	<add key="CommodityATOMPASS" value=""/>
+	<add key="CommodityATOMPRODCT" value=""/>
 	<!--ATOM Payment Gateway -->
 	  
-	<!--captcha -->
-    <add key="captchakey" value="ujeppzvplejj*ueuALwa9+z1mN+p8nmoBxdPA==_Ao/+0+bAAalp+2x975bvBv8CsW4utEGuVrUw1ivIl1BcAJYFbVSQLMg316pV0wBzQOtZDBCcNEWQ8LTAtsIj+BUsm4f5sj8L2bYIjAZlN5aM1q2SKPL0gzIH48U5mPtYYi1Wknje2/UuBwgNxR9wVs0Vq15TvuP01u2SrCDEiOjW1/yLRxLGVzLu+CYYYq6/MpUUJ1tz9hAf7WmeOUg+/+sSuo1ZIxd5"></add>
-    <add key="captchaLenght" value="4"></add>   
-    
+	<!--captcha 
+  Comlex 
+  <add key="captchakey" value="iqnccelenlppne*uALwa9+z1mN+p8nmoBxdPA==_XDXP9zTgohzJ5QVqADsXgZ+bceIUnNdU5Vbd4YlKlsWvmQlR0hrnkTHbu6wD97GGE7j/6BpPEVabhffBhupc2YzvZcto4ZLkWc/k224TjTLmQKQKat11YA0pq9Eeyf5Zap7mlMcUrmzUF1qS0+2JlE/3IffAQd1q8PpQJsq2GShDGMHA0eYqtSHVZisZ+OaTKiVFwUfqqFA7vXuciEDsElMCoIREctuVExiIU5Dmb6YS0/OMKb/94FPBvIG1vCZhl+ySHVCbrHzey8DFJQdZITsSl5VIzAXxi5V7WCTE/5L10+gMmwLoXnAUhZHYz8XgYaCVYN8YLGyrRwoLZPQUOw=="></add>
+  -->
+	<add key="captchakey" value="ujeppzvplejj*ueuALwa9+z1mN+p8nmoBxdPA==_Ao/+0+bAAalp+2x975bvBv8CsW4utEGuVrUw1ivIl1BcAJYFbVSQLMg316pV0wBzQOtZDBCcNEWQ8LTAtsIj+BUsm4f5sj8L2bYIjAZlN5aM1q2SKPL0gzIH48U5mPtYYi1Wknje2/UuBwgNxR9wVs0Vq15TvuP01u2SrCDEiOjW1/yLRxLGVzLu+CYYYq6/MpUUJ1tz9hAf7WmeOUg+/+sSuo1ZIxd5"></add>
+  <add key="captchaLenght" value="5"></add>
+	  
 	<!--Aadhaar -->
-	<add key="AadhaarConsentText" value="I/We hereby agree to proceed further for obtaining demographic data from UIDAI"/>
-    <add key="AadhaarClient" value=""/>  <!-- NCODE/CDSL/AADHAAR_BRIDGE  -->
-    <!--Start Common For NSDL/NCode -->
-    <add key="AadhaarPfxCertificate" value="DependentFiles\PFX\TEST IIB ONLY SIGN.pfx"/>
-	<add key="AadhaarPfxCertificatePass" value="ncode"/>
-	<add key="AadhaarASPId" value="nasp10036"/>
-	<add key="AadhaarCerCertificate" value="DependentFiles\PFX\pre_prod.cer"/>
-	<add key="AadhaarURL" value="http://esignuat.ncode.in:8081/nEkyc2_ws/webresources/eKYCWebService"/>	  
-    <add key="AadhaarMethod" value="POST"/>
-    <!--End Common For NSDL/NCode -->
+	<add key="AadhaarClient" value="NSDL"/>
+	<!--Start Common For NSDL/NCode -->
+	<add key="AadhaarPfxCertificate" value="DependentFiles\PFX\sumpoorna portfolio ltd.pfx"/>
+	<add key="AadhaarPfxCertificatePass" value="esol@123"/>
+	<add key="AadhaarASPId" value="STGSPL0001"/>
+	<add key="AadhaarCerCertificate" value="DependentFiles\PFX\UIDAI_AUTH_ENCRYPT.cer"/>
+	<add key="AadhaarURL" value="https://121.240.64.240/TIN"/>
+	<add key="AadhaarMethod" value="POST"/>
+	<!--End Common For NSDL/NCode -->
 
-    <!--Aadhaar NSDL -->
-	<add key ="AadhaarLicenseKey" value="MIztH61KNb6jtN8pFbEV-p6hhPW-1BlTzuzY7Ocih0e91m5LOqm4I2s"/>
+	<!--Aadhaar NSDL -->
+	<add key="AadhaarLicenseKey"  value="MIztH61KNb6jtN8pFbEV-p6hhPW-1BlTzuzY7Ocih0e91m5LOqm4I2s"/>
 	<add key="AadhaarCerCertificateExpDate" value="20171105"/>
 	<add key="AadharPublicIPAddress" value="203.114.240.96"/>
-	<add key ="AadharPinCode" value="400093"/>
-    <!-- End Aadhaar NSDL -->
-	  
-    <add key="hashSequence" value="ASPID|Uid|TransactionID|SuccessUrl|CancelUrl|TimeStamp"/>
-    <add key="successurl" value="http://localhost:55519/AadhaarBridgeSuccess.aspx"/> 
-    <add key="Cancelurl" value="http://localhost:55519/AadhaarBridgeFailure.aspx"/>
-    <add key="websiteurl" value="http://localhost:55882/eKYC/common/ASPX/"/>
+	<add key="AadharPinCode"  value="400093"/>
+	<!-- End Aadhaar NSDL -->
+
+	<add key="hashSequence" value="ASPID|Uid|TransactionID|SuccessUrl|CancelUrl|TimeStamp"/>
+	<add key="successurl" value="http://localhost:55519/Success.aspx"/>
+	<add key="Cancelurl" value="http://localhost:55519/Failure.aspx"/>
+	<add key="websiteurl" value="http://localhost:55882/eKYC/common/ASPX/"/>
 	<!--Aadhaar -->
-
-	<!--Aadhaar Bridge-->
-	<add key="Sa_Code_Bridge" value="943970"/>
-	<add key="Salt_Code_Bridge" value="7afc8bad2c"/>
-	<add key="AadhaarBridgeOTPURL" value="https://preprod.aadhaarbridge.com/kua/_init"/>
-	<add key="AadhaarBridgeKYCURL" value="https://preprod.aadhaarbridge.com/kua/_kyc"/>
-	<!--Aadhaar Bridge-->
-
-	<!--eSign -->
-	<!--<add key="ContentEstimateSize" value="16384"/>
-	<add key="PfxCertificate" value="DependentFiles\PFX\TEST IIB ONLY SIGN.pfx"/>
-	<add key="PfxCertificatePass" value="ncode"/>
-	<add key="eSignASPId" value="nasp10035"/>
-	<add key="CerCertificate" value="DependentFiles\PFX\uidai_auth_prod.cer"/>
-	<add key="eSignURL" value="http://esignuat.ncode.in:8081/eSignWS_Publish/webresources/"/>
-	<add key="eSignURLMethod" value="POST"/>
-	<add key="appearanceReason" value="Secure"/>
-	<add key="appearanceLocation" value="Ahmedabad"/>
-	<add key="eSignMode" value="A"/>
-	<add key="eSignClient" value="ncode"/>-->
-    <add key ="eSignConsentText" value="I/We hereby agree to proceed further for obtaining Digital signature  from UIDAI"/>
-	<!--Aadhaar Bridge-->
-	<add key="eSignAadhaarsuccessurl" value="http://localhost:55519/eSignAadhaarBridgeSuccess.aspx"/>
-	<add key="eSignAadhaarCancelurl" value="http://localhost:55519/AadhaarBridgeFailure.aspx"/>
-	<!--Aadhaar Bridge-->
-	 <!--eSign -->
-	  
 	  
 	<!--eSign -->
 	<add key="ContentEstimateSize" value="16384"/>
 	<add key="PfxCertificate" value="DependentFiles\PFX\sumpoorna portfolio ltd.pfx"/>
 	<add key="PfxCertificatePass" value="esol@123"/>
 	<add key="eSignASPId" value="PRESUMP"/>
-	<add key="CerCertificate" value="DependentFiles\PFX\uidai_auth_prod.cer"/>
-	<add key="eSignURL" value="https://server2.e-mudhra.com:8443/eServices/v2_0/"/>
+	<add key="CerCertificate" value="DependentFiles\PFX\UIDAI_AUTH_ENCRYPT.cer"/>
+	<add key="eSignURL" value="https://server2.e-mudhra.com:8443/eServices/v1_6_0/"/>
 	<add key="eSignURLMethod" value="POST"/>
-    <add key="appearanceReason" value="Secure"/>
+	<add key="appearanceReason" value="Secure"/>
 	<add key="appearanceLocation" value="Ahmedabad"/>
 	<add key="eSignMode" value="A"/>
-	<add key="eSignClient" value="eMudhra"/>
+	<add key="eSignClient" value="EMUDHRA"/>
 	<!--eSign -->
-	
+
+	<!--Bank Details-->
+	<add key="Bank_URL" value="https://uatsky.yesbank.in/app/uat/RupeePowerService"/>
+	<add key="BankTin_URL" value="https://uatsky.yesbank.in/app/uat/BureauQuery"/>
+  <!--<add key="Bank_URL" value="https://sky.yesbank.in:444/app/live/OTPService"/>
+  <add key="BankTin_URL" value="https://uatsky.yesbank.in/app/uat/BureauQuery"/>-->
+	<add key="Bank_Method" value="POST"/>
+	<add key="Bank_ContentType" value="application/xml"/>
+	<add key="Bank_Authorization" value="Basic dGVzdGNsaWVudDp0ZXN0QDEyMw=="/>
+	<add key="Bank_ClientId" value="48585bf4-393a-40f8-bd94-efc7685a151e"/>
+	<add key="Bank_ClientSecret" value="pJ2jH2jM4rR1lA0uN6lV0aC2dM1mD4vV8kR8iC4hN1vK1kY1hU"/>
+  <add key="PfxCertificateFCR" value="DependentFiles\PFX\yesprivate.pfx"/>
+  <add key="PfxCertificatePassFCR" value="Hotmail@123"/>
+  <add key="PfxCertificateRequired" value="N"/>
+    
+    
+	<!--Bank Details-->
+
+	<!--Scheme Path-->
+	<add key="SchemePath" value="DependentFiles\Scheme\"/>
+	<!--RM Details-->
+
 	<!--RM Details-->
     <add key="Mem_UserId" value=" "/>
     <add key="Mem_UserPassword" value=" "/>
@@ -466,22 +473,22 @@
     <add key="IPVLinkSubject" value="Welcome to KYC Portal"/>
     <add key="IPVURL" value="http://localhost:55882/eKYC/common/ASPX/confNew.html"/>
     <add key="Disclaimer" value="Thank You"/>
-    <add key="IPVEmail" value="N"/>
-    <add key="archiveVideoPath" value="archive"/>
+    <add key="IPVEmail" value="N"/>    
     <add key="tokApiKey" value="45725212"/>
     <add key="tokSecretKey" value="1240f0bb34d4fdaaa9066a1042be5fe77ede7c34"/>
     <!-- TokBox --> 
 	  
 	<!--WizIQ-->
 	<add key="wizServiceRootUrl" value="http://class.api.wiziq.com/apimanager.ashx?"/>	  
-	<add key="wizAccessKey" value="xPPINR22/zc="/>	  
-	<add key="wizSeceretKey" value="1VvQcRN/judBBsphMnhblw=="/>
+	<add key="wizAccessKey" value="XQS83pwtKIY="/>	  
+	<add key="wizSeceretKey" value="9AVYcY3RvEjTCrA4IsVpXw=="/>
 	<add key="wizSessStartInAfterMin" value="2"/>
 	<add key="wizSessionDurationMin" value="40"/>
-	<add key="archiveVideoPath" value="C:\WizArchive"/>
-	<add key="PresenterEmail" value="kyc@amrapaliaadya.in"/>
+	<add key="archiveVideoPath" value="VideoArchive"/>
+	<add key="PresenterEmail" value="it@skunggroup.in"/>
 	<add key="attendee_limit" value="5"/>
-    <add key="WiZiQDownloadCertificate" value="DependentFiles\PFX\wizCerti.cer"/>
+	<add key="WiZiQDownloadCertificate" value="DependentFiles\PFX\wizCerti.cer"/>
+	  
 	<!--WizIQ-->
     <!-- End Of IPV Link -->
 
@@ -489,12 +496,29 @@
     <add key="LicensePath" value="Licence" />
 	<!--Licence-->
 
-	<!-- Data Base Details -->
-	<add key="DATABASE" value="qjazuzpp!vajczeuALwa9+z1mN+p8nmoBxdPA==_Yb36TDF/kJL3p3aK5WcZra4CejyMK+FPpfzMiaCKZqFhpoAy+bFQSF4W7jQ6X7XKijX9zoH5+xQldaWGQmGWZbWECCs8NoFNbi51vq11VP8l+qVVkuZ8qC9wNEwdM+9Aw5AF92Akv+ooSrQyLtZy/zSmJ8TtFMkPAjn/r93L9L6LW/U3QIVIWrKmzQgiaobkYHb2wXKJmfdy99Fs19xbBRWIe0nJHZ7P"/>
-	<add key="PASSWORD" value="jeulicijvuquap*uALwa9+z1mN+p8nmoBxdPA==_SIaLRriIO0f3So8WNK7eJ5DNtxTp79SUpFO3I/Hb85aoElC6UzvacYCJOAV71yLsdApigHKXUjX2fB7idL56V9JJ8Peq93eYoNYCUYFVlpdTBub2zzcqcDfgK3kEs5Y2y/EJUQNyO775S+DbNBTnIDM/r66MMob+L2gI6lximyGhDDOTLl91QuDoQWqowWpO3ZR54Ubw+EUngxVAwWB7fw=="/>
-	<add key="SERVERNAME" value="zqaznnjjplileqauALwa9+z1mN+p8nmoBxdPA==_s9Vmbm7MgkviVcWTbnRjjiyeduoKBCLPSKKKzsS2Q9YEztpSL9uJEGLDEECbU+JvG0nqP3mchMv+OPvn+y7YyTAIwQ0is1SLho0WZkNvaAzZ0Yi8zD9pvD/SgGplywWebrbFzupFEXgOikcrLbVXM6mNgHQTDva2cADmJAAWvgAdKAMxP11d/tUg3RY/nwTc+wNAp7urk1G7ChyYPBEoiYv08wcmdGuRyhj7WT5N8Y0="/>
-	<add key="USERID" value="!la*iccezz!lalzuALwa9+z1mN+p8nmoBxdPA==_SIaLRriIO0f3So8WNK7eJ5DNtxTp79SUpFO3I/Hb85Z3WD7ywgYjKhAnBnOJVFbQd3DdyqQWfgNF/6NYyOnGFW4vNWuTno7j5fdSf3heh/R4TisgeD6iQ8PrtlLr/umaM7UT779ZCWB+j2w3KwUZnzV9/7tomG69Dfu3IWuO3twnT1LqFUEcTf7O4IeQP/y4ueju4fi0Zpiv4CXPU0UbRA=="/>
-	<!-- Data Base Details -->
+	<!--CKYC-Start-->
+	<!--FI Registration Code-->
+	<add key="FICODE" value="FICODE" />
+	<add key="REGIONORBRANCH" value="HO" />
+	<add key="XCEEDZIPLIC" value="6EEE12EC6FDFED24C33E7BEFFB65C5ED" />
+	<add key="SampleMessage" value="TEST SIGN SAMPLE TEXT"/>
+	<add key="Protocol" value="http"/>
+	<add key="HostName" value="localhost"/>
+	<add key="HostPort" value="1234"/>
+	<add key="TokenType" value="Aladdin"/>
+	<add key="Password" value="PASSWORD"/>
+	<add key="StoreName" value="My"/>
+	<add key="StoreLocation" value="CurrentUser"/>
+	<add key="SerialNumber" value="1F2561A10200B2F3"/>
+	<!--CKYC-End-->
+	 
+	  <!-- Data Base Details -->
+	  <!--anil_kyc <add key="DATABASE" value="qjazuzpp!vajczeuALwa9+z1mN+p8nmoBxdPA==_Yb36TDF/kJL3p3aK5WcZra4CejyMK+FPpfzMiaCKZqFhpoAy+bFQSF4W7jQ6X7XKijX9zoH5+xQldaWGQmGWZbWECCs8NoFNbi51vq11VP8l+qVVkuZ8qC9wNEwdM+9Aw5AF92Akv+ooSrQyLtZy/zSmJ8TtFMkPAjn/r93L9L6LW/U3QIVIWrKmzQgiaobkYHb2wXKJmfdy99Fs19xbBRWIe0nJHZ7P"/>-->
+    <add key="DATABASE" value="!a*cvqe*ple!quluALwa9+z1mN+p8nmoBxdPA==_/6STyPldhGQYEesWvfjnxsLrnOonfWU62dM/5MG6MwcHirZEAJDe/oMspz5rmpRmHjU0Dj265pUZrZpEm2NUJBtZgACjzQJMxLjLpewHXHPzDQYiohGu3R1Kwg1XDwYq0RMX7gS5nf4400DegCy2ZEcdVb3US1qHYoikrqCmoJWwLObm8pUMhuyV8fN3BVo4UwjPzVWhFa39WMUmU5CoSQtT5wq/tSEr"/>
+    <add key="SERVERNAME" value="zqaznnjjplileqauALwa9+z1mN+p8nmoBxdPA==_s9Vmbm7MgkviVcWTbnRjjiyeduoKBCLPSKKKzsS2Q9YEztpSL9uJEGLDEECbU+JvG0nqP3mchMv+OPvn+y7YyTAIwQ0is1SLho0WZkNvaAzZ0Yi8zD9pvD/SgGplywWebrbFzupFEXgOikcrLbVXM6mNgHQTDva2cADmJAAWvgAdKAMxP11d/tUg3RY/nwTc+wNAp7urk1G7ChyYPBEoiYv08wcmdGuRyhj7WT5N8Y0="/>
+    <add key="USERID" value="!la*iccezz!lalzuALwa9+z1mN+p8nmoBxdPA==_SIaLRriIO0f3So8WNK7eJ5DNtxTp79SUpFO3I/Hb85Z3WD7ywgYjKhAnBnOJVFbQd3DdyqQWfgNF/6NYyOnGFW4vNWuTno7j5fdSf3heh/R4TisgeD6iQ8PrtlLr/umaM7UT779ZCWB+j2w3KwUZnzV9/7tomG69Dfu3IWuO3twnT1LqFUEcTf7O4IeQP/y4ueju4fi0Zpiv4CXPU0UbRA=="/>
+    <add key="PASSWORD" value="jeulicijvuquap*uALwa9+z1mN+p8nmoBxdPA==_SIaLRriIO0f3So8WNK7eJ5DNtxTp79SUpFO3I/Hb85aoElC6UzvacYCJOAV71yLsdApigHKXUjX2fB7idL56V9JJ8Peq93eYoNYCUYFVlpdTBub2zzcqcDfgK3kEs5Y2y/EJUQNyO775S+DbNBTnIDM/r66MMob+L2gI6lximyGhDDOTLl91QuDoQWqowWpO3ZR54Ubw+EUngxVAwWB7fw=="/>
+    <!-- Data Base Details -->
 
   </appSettings>
 </configuration>
