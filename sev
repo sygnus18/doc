@@ -1,1 +1,12 @@
 hello
+
+ [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "ClientAuthorization/GetEntityAuthorization")]
+        [return: MessageParameter(Name = "Result")]
+        string GetEntityAuthorization(string sUserID, string sToken, string sSessionID, string nEntityNo);
+        
+        
+        
+        
+        public string SetEntityAuthorization(string sUserID, string sToken, string sSessionID, string nEntityNo, string Status, string sRemarks, string nUserNo, string ClientName, string MobileNo, string emailId)
+        {
